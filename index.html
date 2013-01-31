@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Verb</title>
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+</head>
+<body>
+	<div class="hero-unit">
+  		<h1 style="text-align: center"></h1>
+	</div>
+
+	<script>
+		(function() {
+			var type = {
+				'question': 'вопрос',
+				'statement': 'утверждение',
+				'denial': 'отрицание',
+			}
+			var time = {
+				'past': 'прошедшее',
+				'present': 'настоящее',
+				'future': 'будущее'
+			}
+			var who = {
+				'i': 'я',
+				'you': 'вы',
+				'she': 'она',
+				'he': 'он',
+				'we': 'мы',
+				'they': 'они'
+			}
+			var all = [];
+			_(who).forEach(function(ruWho, enWho) {
+				_(type).forEach(function(ruType, enType) {
+					_(time).forEach(function(ruTime, enTime) {
+						all.push(ruWho+' '+ruType+' '+ruTime)
+					});
+				});
+			});
+
+			var allRandom;
+			var makeAllRandom = function() {
+				allRandom = _.chain(all).clone().shuffle().value();
+			}
+			makeAllRandom();
+			var node = document.getElementsByTagName("h1")[0];
+			var next = function() {
+				if (allRandom.length === 0) {
+					makeAllRandom();
+					node.innerHTML = 'Следующий &rarr;';
+				}
+				else {
+					node.innerText = allRandom.pop();
+				}
+			}
+			next();
+			document.onkeypress = next;
+			document.onclick = next;
+		})();
+	</script>
+</body>
+</html>
